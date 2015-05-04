@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- Website template by freewebsitetemplates.com -->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Visitors Page</title>
+	<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+	<div id="header1">
+		<div>
+			<div id="logo">
+				<a href="index.html"><img src="" alt=""></a>
+			</div>
+			<ul id="navigation">
+				<li>
+					<a href="index.php">Home</a>
+				</li>
+				<li class="selected">
+					<a href="#">Visitor's Counter</a>
+				</li>
+				<li>
+					<a href="gallery.php">Gallery</a>
+				</li>
+				<li>
+					<a href="index.php">Log Out</a>
+				</li>
+			<!-- 	<li class="selected">
+					<a href="contact.html">Contact</a>
+				</li> -->
+			</ul>
+		</div>
+	</div>
+	<div id="contents">
+		<div>
+			<div class="body" id="contact">
+				<!-- <div id="sidebar">
+					<div class="body">
+						<img src="" alt="">
+						<div class="contact">
+							<p>
+								
+							</p>
+						</div>
+					</div>
+				</div> -->
+				<div id="main">
+					<h1>Visitor's Counter</h1>
+					<p>
+						This page allows the complainants to post and upload photos of their barangay's problems.
+					</p>
+					<form action="" method="post" enctype="multipart/form-data" class="vcounter">
+						
+						<input type="text" name="complainant" class ="register-input" required placeholder = "Full Name"><br>
+						<input type="text" class ="register-input" name="email" id="email" required placeholder = "Email Address"><br>
+						
+						<input type="text" class ="register-input" name="contact" required Placeholder ="Contact Number"><br>
+						
+						<input type="text" class ="register-input" name="location" id="location" required placeholder = "Location"><br>
+                  		<input type="date"  class ="register-input" name="date" required placeholder = "Date"><br>
+                  		
+						<select name="category" class ="register-input" id="category">
+						<option value="category">Category</option>
+							<option value="road">Road</option>
+							<option value="garbage">Garbage</option>
+							<option value="public">Public Disturbance</option>
+						</select><br>
+						
+						<input type="text" class ="register-input" name="description" id="description" required placeholder = "Complaint Description"></textarea><br>
+						
+						<input type="file" class ="register-input" name="image" id="image" required placeholder = "Image">
+						<br><br>
+						<input type="submit" name="submit" id="submit" value="File Complaint" class="btn1">
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
