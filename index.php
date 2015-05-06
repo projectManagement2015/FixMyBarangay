@@ -1,17 +1,32 @@
 <?php
 require_once('db.php');
 session_start();
+if (isset($_SESSION['fmb'])) {
+	header('location:home.php');
+}
+
+if (isset($_GET['register'])) {
+	if ($_GET['register']==1) {
+		echo "<script>alert('You are now registered and ready to complain');</script>";
+	}
+}
+if (isset($_GET['register'])) {
+	if ($_GET['register']==2) {
+		echo "<script>alert('Username already exist.');</script>";
+	}
+}
 
 if (isset($_POST['login'])) {
 	$username=$_POST['username'];
 	$password=$_POST['password'];
-	$sql = "SELECT username,password FROM user WHERE username='$username' AND password='$password'";
+	$sql = "SELECT username,password FROM residence WHERE username='$username' AND password='$password'";
 	$query = mysqli_query($conn,$sql);
-	$rows = mysqli_fetch_assoc($query);
-	if ($rows > 0) {
+	if($rows = mysqli_fetch_assoc($query)){
+		$_SESSION['fmb'] = $rows['rid'];
 		header("location:home.php");
+		mysqli_close($conn);
 	} else {
-		echo "<script>alert('Username or Password is invalid')</script>";
+		echo "<script>alert('Username/Password is invalid')</script>";
 	}
 	}
 ?>
@@ -44,7 +59,7 @@ if (isset($_POST['login'])) {
 </form>
 
 
-<form id="slick-register">
+<form id="slick-register" action="register.php">
 <input type="submit" value="Sign Up"></a>
 </form>
 
