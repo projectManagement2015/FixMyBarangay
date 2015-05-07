@@ -1,11 +1,6 @@
 <?php 
     session_start();
 	require_once('db.php');
-
-	if ($_SESSION['login']!=1) {
-		header('location: index.php');
-	}
-	
 	$sql = "SELECT * FROM complain";
 	$user_query = mysqli_query($conn,$sql);
 	// var_dump($_SESSION);
@@ -19,8 +14,11 @@
 		$body1 = $_POST['comment'];
 		$complainID = $_POST['hidden'];
 
-		$query = 'INSERT INTO comment VALUES (null, "'.$name.'", "'.$body1.'", '.$complainID.')';
+		if ($body1 != '') {
+		$query = 'INSERT INTO comment VALUES (null, "'.$name.'", "'.$body1.'", '.$complainID.' , '.date("Y-m-d").')';
 		$insert_comment = mysqli_query($conn,$query);
+			
+		}
 		// echo mysqli_error($conn);
 		// echo $query;
 	}
@@ -49,9 +47,18 @@
 				<li class="selected">
 					<a href="gallery.php">Gallery</a>
 				</li>
-				<li>
-					<a href="logout.php">Log Out</a>
-				</li>
+				<?php 
+				if ($_SESSION['fname'] != NULL) {
+					echo "<li>
+					<a href='index.php'>Log Out</a>
+				</li>";
+				}
+				else {
+					echo "<li>
+					<a href='index.php'>Log In</a>
+				</li>";
+				}
+				?>
 			<!-- 	<li>
 					<a href="contact.html">Contact</a>
 				</li> -->
@@ -102,22 +109,30 @@
 								echo '<br>Location:'.$row['location'];
 								echo '<br>Desciption:'.$row['description'];
 								echo '<div>';
-								echo "<h3>Comments</h3>";
+								echo '<h3>Comment Section</h3>';
 								$query = "SELECT * FROM comment WHERE complainID = ".$row['complainID'];
-								// echo $query;
+								// echo $query;	
                             	$result = mysqli_query($conn,$query);
+                            	if (mysqli_num_rows($result) == 0) {
+                            		echo "<h3>Be the first to comment!</h3>";
+                            	}
+                            	else {
+                            		echo '<table class="table" border="0">';
+								echo '<tr><th>Name</th><th>Comment</th></tr>';
                             		while($rowc = mysqli_fetch_assoc($result)) {
-                            			echo " ".$rowc['name'].": ".$rowc['comments']."<br>";
+                            			echo " <tr align='center' style='background-color: E4F1FE;'><td>".$rowc['name']."</td><td> <i>".$rowc['comments']."</i><br /><p style='font-size: 12px; text-align: right; padding-right: 15px;'>Posted on  ".$rowc['date']."</p></td></tr>";
                             		}
-								 echo "</div>";
-
-								echo "<form action='' method='post'	>
+								 echo "</table></div>";
+                            	}
+								if ($name != null) {
+									echo "<form action='' method='post'	>
+									<h3>Add a comment</h3><br />
 								<input type='hidden' value='".$row['complainID']."' name='hidden'/>
-								<textarea name='comment' rows='3'> </textarea>
-
-								<input type='submit' name='submit' value='Comment'>
+								<textarea name='comment' rows='5' style='width:100%; resize: none'> </textarea>
+								";
+									echo "<br /><input type='submit' name='submit' value='Comment' style='float: right;'>
 								</form>";
-									
+								}
 								echo '</div></div>';
 								
 
