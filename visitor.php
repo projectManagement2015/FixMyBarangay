@@ -1,24 +1,27 @@
 <?php 
 require_once('db.php');
 session_start();
+if (
+	$_SESSION['login']!=1) {
+	header('location: index.php');
+}
 if(!isset($_SESSION['fmb'])){
 	// header('location :index.php ');
 }
 if(isset($_POST['submit'])){
-	$cname = $_POST['complainant'];
-	$email = $_POST['email'];
-	$contact = $_POST['contact'];
-	$location = $_POST['location'];
-	$cdate = $_POST['date'];
+	$cid = $_SESSION['cid'];
+	$purok = $_POST['purok'];
+	$cdate = date('Y-m-d');
 	$category = $_POST['category'];
 	$description = $_POST['description'];
-	// $image = $_POST['image'];
+
+
 	$newDate = date("Y-m-d", strtotime($cdate));
       
 	$uploaddir = '\images\uploads/';
 	$uploadfile = $uploaddir . basename($_FILES['image']['name']);
 	$filename = basename($_FILES['image']['name']);
-	echo __DIR__;
+	// echo __DIR__;
       if ($uploadfile != null) {
           // $image = addslashes(file_get_contents($file));
           // $image_name = addslashes($_FILES['image']['name']);
@@ -38,24 +41,26 @@ if(isset($_POST['submit'])){
       // }  
 
         if (!empty($filename)) {
-            $insert_complain = "INSERT INTO complain(cname,email,contact,location,cdate,category,description,image) values ('$cname','$email','$contact','$location','$newDate','$category','$description','$filename');";
-                  }
+            $insert_complain = "INSERT INTO complain(purok,cdate,category,description,image, cid) values ('$purok','$newDate','$category','$description','$filename',$cid);";
+            }
         else{
-            $insert_complain = "INSERT INTO complain(cname,email,contact,location,cdate,category,description) values ('$cname','$email','$contact','$location','$newDate','$category','$description');";
+            $insert_complain = "INSERT INTO complain(purok,cdate,category,description) values ('$purok','$newDate','$category','$description',null, $cid);";
           }
             $insert_complain_result = mysqli_query($conn,$insert_complain);
-            var_dump($insert_complain_result);
+            // var_dump($insert_complain_result);
             if ($insert_complain_result > 0) {
-              echo "<div class = 'container'><div class='alert alert-success alert-dismissable'>
-                 <button type='button' class='close' data-dismiss='alert' 
-                 aria-hidden='true'>&times;</button> File is added.</div></div>";
+              // echo "<div class = 'container'><div class='alert alert-success alert-dismissable'>
+              //    <button type='button' class='close' data-dismiss='alert' 
+              //    aria-hidden='true'>&times;</button> File is added.</div></div>";
+            	echo "<script>alert('Complain submitted succesfully!')</script>";
             } 
             else{
-            	 echo "<div class = 'container'><div class='alert alert-danger alert-dismissable'>
-                 <button type='button' class='close' data-dismiss='alert' 
-                 aria-hidden='true'>&times;</button> File not added.</div></div>";
+            	 // echo "<div class = 'container'><div class='alert alert-danger alert-dismissable'>
+              //    <button type='button' class='close' data-dismiss='alert' 
+              //    aria-hidden='true'>&times;</button> File not added.</div></div>";
+            	echo "Failed to submit complain!";
             }
-           header("location:viewcomplaint.php");
+           // header("location:viewcomplaint.php");
 	}
 
  ?>
@@ -81,10 +86,13 @@ if(isset($_POST['submit'])){
 					<a href="#">Visitor's Counter</a>
 				</li>
 				<li>
-					<a href="gallery.php">Gallery</a>
+					<a href="javascript:void()">Complaints</a>
 				</li>
 				<li>
-					<a href="index.php">Log Out</a>
+					<a href="javascript:void()">Gallery</a>
+				</li>
+				<li>
+					<a href="logout.php">Log Out</a>
 				</li>
 			<!-- 	<li class="selected">
 					<a href="contact.html">Contact</a>
@@ -111,14 +119,6 @@ if(isset($_POST['submit'])){
 						This page allows the complainants to post and upload photos of their barangay's problems.
 					</p>
 					<form action="" method="post" enctype="multipart/form-data" class="vcounter">
-						
-						<!-- <input type="text" name="complainant" class ="register-input" required placeholder = "Full Name"><br>
-						<input type="text" class ="register-input" name="email" id="email" required placeholder = "Email Address"><br>
-						
-						<input type="text" class ="register-input" name="contact" required Placeholder ="Contact Number"><br> -->
-						
-						<!-- <input type="text" class ="register-input" name="location" id="location" required placeholder = "Location"><br> -->
-                  		<input type="date"  class ="register-input" name="date" required placeholder = "Date"><br>
                   		
 						<select name="category" class ="register-input" id="category">
 						<option value="category">Category</option>
@@ -126,19 +126,19 @@ if(isset($_POST['submit'])){
 							<option value="garbage">Garbage</option>
 							<option value="public">Public Disturbance</option>
 						</select><br>
-						<select name="category" class ="register-input" id="category">
-						<option value="category">Purok</option>
-							<option value="road">1</option>
-							<option value="garbage">2</option>
-							<option value="public">3</option>
-							<option value="public">4</option>
-							<option value="public">5</option>
-							<option value="public">6</option>
-							<option value="public">7</option>
-							<option value="public">8</option>
+						<select name="purok" class ="register-input" id="category">
+						<option value="">Purok</option>
+							<option value="Purok 1">1</option>
+							<option value="Purok 2">2</option>
+							<option value="Purok 3">3</option>
+							<option value="Purok 4">4</option>
+							<option value="Purok 5">5</option>
+							<option value="Purok 6">6</option>
+							<option value="Purok 7">7</option>
+							<option value="Purok 8">8</option>
 						</select><br>
 						
-						<input type="text" class ="register-input" name="description" id="description" required placeholder = "Complaint Description"></textarea><br>
+						<textarea type="text" class ="register-input" name="description" id="description" required placeholder = "Complaint Description"></textarea><br>
 						
 						<input type="file" class ="register-input" name="image" id="image" required placeholder = "Image">
 						<br><br>

@@ -1,6 +1,10 @@
 <?php 
-
- ?><!DOCTYPE html>
+	session_start();
+	if ($_SESSION['login']!=1) {
+		header('location: index.php');
+	}
+ ?>
+ <!DOCTYPE html>
 <!-- Website template by freewebsitetemplates.com -->
 <html>
 <head>
@@ -26,7 +30,7 @@
 					<a href="gallery.php">Gallery</a>
 				</li>
 				<li >
-					<a href="index.php">Log Out</a>
+					<a href="logout.php">Log Out</a>
 				</li>
 				<!-- <li>
 					<a href="contact.html">Contact</a>

@@ -1,6 +1,11 @@
 <?php 
     session_start();
 	require_once('db.php');
+
+	if ($_SESSION['login']!=1) {
+		header('location: index.php');
+	}
+ 
 	$sql = "SELECT * FROM complain";
 	$user_query = mysqli_query($conn,$sql);
 	// var_dump($_SESSION);
@@ -45,7 +50,7 @@
 					<a href="gallery.php">Gallery</a>
 				</li>
 				<li>
-					<a href="index.php">Log Out</a>
+					<a href="logout.php">Log Out</a>
 				</li>
 			<!-- 	<li>
 					<a href="contact.html">Contact</a>

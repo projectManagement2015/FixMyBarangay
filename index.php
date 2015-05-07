@@ -25,7 +25,7 @@ if (isset($_POST['login'])) {
 		$_SESSION['fmb'] = $rows['rid'];
 		header("location:home.php");
 		mysqli_close($conn);
-	} else {
+	}else {
 		echo "<script>alert('Username/Password is invalid')</script>";
 	}
 	}

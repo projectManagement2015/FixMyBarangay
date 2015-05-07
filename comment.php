@@ -1,6 +1,11 @@
 <?php 
 require_once('db.php');
 session_start();
+
+if ($_SESSION['login']!=1) {
+	header('location: index.php');
+}
+
 if(!isset($_SESSION['fmb'])){
 	// header('location :index.php ');
 }

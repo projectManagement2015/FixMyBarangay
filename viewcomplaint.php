@@ -1,45 +1,51 @@
 <?php 
-require_once('db.php');
+  require_once('db.php');
+  session_start();
+  if ($_SESSION['login']!=1) {
+    header('location: index.php');
+  }
+
+
  ?>
 
 <!DOCTYPE html>
 <!-- Website template by freewebsitetemplates.com -->
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>FMB</title>
-	<link rel="stylesheet" href="css/style.css" type="text/css">
+  <meta charset="UTF-8">
+  <title>FMB</title>
+  <link rel="stylesheet" href="css/style.css" type="text/css">
   <link rel="stylesheet" href="css/bootstrap.min.css.css" type="text/css">
   
 
 </head>
 <body>
-	<div id="header1">
-		<div>
-			<div id="logo">
-				<a href="index.html"><img src="" alt=""></a>
-			</div>
-			<ul id="navigation">
-				<li>
-					<a href="home.php">Home</a>
-				</li>
-				<li>
-					<a href="visitor.php">Visitor's Counter</a>
-				</li>
-				<li><a href="viewcomplaint.php">Complaints</li>
-				<li>
-					<a href="gallery.php">Gallery</a>
-				</li>
-				<li >
-					<a href="index.php">Log Out</a>
-				</li>
-				<!-- <li>
-					<a href="contact.html">Contact</a>
-				</li> -->
-			</ul>
-		</div>
-	</div>
-	<div id="contents">
+  <div id="header1">
+    <div>
+      <div id="logo">
+        <a href="index.html"><img src="" alt=""></a>
+      </div>
+      <ul id="navigation">
+        <li>
+          <a href="home.php">Home</a>
+        </li>
+        <li>
+          <a href="visitor.php">Visitor's Counter</a>
+        </li>
+        <li><a href="viewcomplaint.php">Complaints</li>
+        <li>
+          <a href="gallery.php">Gallery</a>
+        </li>
+        <li >
+          <a href="logout.php">Log Out</a>
+        </li>
+        <!-- <li>
+          <a href="contact.html">Contact</a>
+        </li> -->
+      </ul>
+    </div>
+  </div>
+  <div id="contents">
     <div class="panel panel-default">
               <div class="panel-heading">
                 <h2>Complaints</h2>
@@ -107,7 +113,7 @@ require_once('db.php');
 
               </div>
               </div>
-		 
-	</div>
+     
+  </div>
 </body>
 </html>
