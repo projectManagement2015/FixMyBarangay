@@ -7,11 +7,11 @@ if(isset($_POST['submit'])){
   $conn=mysqli_connect("localhost","root","");
   mysqli_select_db($conn,"fmb")or die(mysqli_error());
 
-  $sql = "SELECT rid FROM residence where $rid = rid";
+  $sql = "SELECT rid FROM user where $rid = rid";
   $result = mysqli_query ($conn, $sql);
   if (mysqli_num_rows($result) > 0) {
     while($row = mysqli_fetch_assoc($result)) {
-         echo "<script>alert('Your ID is : " . $row["rid"] .'\n'." Please provide your username and password to register.".'\n'." Thank You!');</script>";
+         echo "<script>alert('Your ID is : " . $row["rid"]. " Please provide your username and password for your complaints. Thank You!');</script>";
     }
 }  
 else {
@@ -29,21 +29,17 @@ else {
   mysqli_select_db($conn,"fmb")or die(mysqli_error());
   if(!$conn) 
    { die('Error : '.mysqli_error());}
- $sql = "UPDATE residence SET email='$email',username='$username',password='$password' WHERE rid='$rid'";
+
+  $sql = "UPDATE user SET email='$email',username='$username',password='$password' WHERE rid='$rid'";
   if(mysqli_query($conn,$sql)){
-      $conn=mysqli_connect("localhost","root","");
-  mysqli_select_db($conn,"fmb")or die(mysqli_error());
-    $sql = "UPDATE residence SET email='$email',username='$username',password='$password' WHERE rid='$rid'";
-    header("location:index.php?register=1");
+    header("location:index.php");
   }
   else {
-    header("location:home.php?register=2");
+    echo "Error";
   }
 
   mysqli_close($conn);
 }
-
-
 ?>
 
 
@@ -59,6 +55,7 @@ else {
   <h1 class="register-title">Fix My Barangay</h1>
   <form class="register" action="" method="post">
     
+  
     <input type = "text" name="rid" class="register-input" placeholder = "id number"> 
     <input type="submit" name="submit" value="Search ID" class="register-button">
  </form>
@@ -68,11 +65,11 @@ else {
  if(isset($_POST['submit'])){
     $con=mysqli_connect("localhost","root","");
      mysqli_select_db($con,"fmb")or die(mysqli_error());
-    $sqll= "SELECT * FROM residence WHERE $rid = rid";
+    $sqll= "SELECT * fROM user WHERE $rid = rid";
     $resultt = mysqli_query($con,$sqll);
     if($_POST['rid'] == $rid)
       {
-        while($row = mysqli_fetch_array($resultt)){
+        $row = mysqli_fetch_array($resultt);
  ?>
     <form class="register" action="" method="post">
     <input type="text" name="rid" class="register-input" value="<?php echo $row['rid'] ?>" placeholder= "Last Name" readonly>
@@ -89,20 +86,19 @@ else {
       <option value="7"disable>Purok 7</option>
       <option value="8"disable>Purok 8</option>
     </select>
-    <input type="email" name="email" class="register-input" value = "" placeholder="Email">
-    <input type="text" name="username" class="register-input" value="" placeholder="Username">
-    <input type="password" name="password" class="register-input" value="" placeholder="Password"> 
-    <input type="submit" name="register" value="Edit" class="register-button">
+    <input type="email" name="email" class="register-input" value = "<?php echo $row['email']?>">
+    <input type="text" name="username" class="register-input" value="<?php echo $row['username'] ?>">
+    <input type="password" name="password" class="register-input" value="<?php echo $row['password'] ?>"> 
+    <input type="submit" name="register" value="Register" class="register-button">
+  </form>
+ <?php }}?> 
 
- <?php  if(empty($row)) { ?> 
- <input type="submit" name="register" value="Register" class="register-button">
-<?php }}}}?>
   <div class="about">
     
     <p class="about-author">
       <b>&copy; 2015 GoBones</b>
 
     </p>
-</div>  </form>  
+  </div>
 </body>
 </html>
