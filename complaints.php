@@ -1,10 +1,6 @@
 <?php 
-	session_start();
-	if ($_SESSION['login']!=1) {
-		header('location: index.php');
-	}
- ?>
- <!DOCTYPE html>
+
+ ?><!DOCTYPE html>
 <!-- Website template by freewebsitetemplates.com -->
 <html>
 <head>
@@ -27,10 +23,10 @@
 				</li>
 				<li><a href="complaints.php">Complaints</li>
 				<li>
-					<a href="gallery.php">Gallery</a>
+					<a href="gallery.php">Search Complaint</a>
 				</li>
 				<li >
-					<a href="logout.php">Log Out</a>
+					<a href="index.php">Log Out</a>
 				</li>
 				<!-- <li>
 					<a href="contact.html">Contact</a>

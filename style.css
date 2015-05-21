@@ -134,10 +134,7 @@ table {
 
 body {
 	font-family: sans-serif;
-
-	
-	
-	background-image: url(../2/a.jpg);
+	background-image: url(images/a.jpg);
 	background-size: cover;
 	-webkit-filter: blur(5px);
 	z-index: 0;
@@ -629,7 +626,7 @@ body {
 #contents > div {
   background-position: -1931px bottom;
   width: 1050px;
-  padding: 0 5px 10px;
+  /*padding: 0 5px 10px;*/
 }
 #contents div.body {
   background-position: 1px top;

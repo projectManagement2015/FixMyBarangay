@@ -5,7 +5,7 @@
 	$user_query = mysqli_query($conn,$sql);
 	// var_dump($_SESSION);
 
-	$name = $_SESSION['fname'];
+	$name = $_SESSION['username'];
 	if($_POST) {
 		// var_dump($_POST);
 

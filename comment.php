@@ -1,11 +1,6 @@
 <?php 
 require_once('db.php');
 session_start();
-
-if ($_SESSION['login']!=1) {
-	header('location: index.php');
-}
-
 if(!isset($_SESSION['fmb'])){
 	// header('location :index.php ');
 }
@@ -62,7 +57,7 @@ if(isset($_POST['comment'])){
 					<a href="#">Visitor's Counter</a>
 				</li>
 				<li>
-					<a href="gallery.php">Gallery</a>
+					<a href="gallery.php">Search Complaint</a>
 				</li>
 				<li>
 					<a href="index.php">Log Out</a>

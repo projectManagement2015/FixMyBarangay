@@ -1,9 +1,11 @@
 <?php 
 require_once('db.php');
- ?>
+session_start();
+$official_id = $_SESSION['officialid'];
+  $position = $_SESSION['position'];
+?>
 
 <!DOCTYPE html>
-<!-- Website template by freewebsitetemplates.com -->
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -11,7 +13,15 @@ require_once('db.php');
 	<link rel="stylesheet" href="css/style.css" type="text/css">
   <link rel="stylesheet" href="css/bootstrap.min.css.css" type="text/css">
   
-
+<style>
+th{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    text-align: left; 
+}
+</style>
 </head>
 <body>
 	<div id="header1">
@@ -20,67 +30,83 @@ require_once('db.php');
 				<a href="index.html"><img src="" alt=""></a>
 			</div>
 			<ul id="navigation">
-				<li>
-					<a href="adminhome.php">Home</a>
-				</li>
-				<li><a href="viewcomplaint.php">Complaints</li>
-				<li>
-					<a href="gallery1.php">Gallery</a>
-				</li>
-				<li >
-					<a href="adminlogin.php">Log Out</a>
-				</li>
-				<!-- <li>
-					<a href="contact.html">Contact</a>
-				</li> -->
-			</ul>
+        <li >
+          <a href="adminhome.php">Home</a>
+        </li>
+        <li>
+          <a href="pages/complainants.php">List Of Complainants</a>
+        </li>
+        <li >
+          <a href="adminofficials.php">Task</a>
+        </li>
+                <?php 
+        echo "<li>";
+        if($position == 'Captain') {
+          echo "<a href='unassignedComplaints.php'>Unassigned Complaints</a>";
+        }
+        else{
+          echo "<a href ='unassignedComplaints.php'>Update Status</a>";
+        }
+        echo "</li>";
+        ?> 
+        <li>
+          <a href="index.php">Log Out</a>
+        </li>
+      </ul>
 		</div>
 	</div>
 	<div id="contents">
-    <div class="panel panel-default">
-              <div class="panel-heading">
-                <h2>COMPLAINANTS</h2>
-              </div>
-              
-              <div class="panel-body">
-              <div id="example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row">
-                  <div class="col-xs-12">
-                  <table id="example" class="table table-striped table-bordered" cellspacing="1" width="500%">
-                      <thead >
-                        <tr> 
-                            <td>First Name</td>
-                            <td>Last Name</td>
-                            <td>Email Address</td>
-                            <td></td>
-                        </tr>
-
-                    </thead>
-             
-                    
-                        <?php
-                            $query = "SELECT fname,lname,email FROM complainant1";
-                            $select_result = mysqli_query($conn,$query);
-                            while($row = mysqli_fetch_assoc($select_result)){
-                             
-                              echo "<tr>";
-                              echo "<td>".$row['fname']."</td>";
-                              echo "<td>".$row['lname']."</td>";
-                              echo "<td>".$row['email']."></td>";     
-                              echo "<td><a href='https://mail.google.com'><image src='images/email.jpg'></i></td>";                               
-                             echo "</tr>";
-                            }
-                            
-                        ?>
+  <div class="panel-heading">
+  <center><h1>COMPLAINANTS</h1></center>
+  </div> 
                    
-
-                </table>
-              </div>
-              </div>
-
-
-              </div>
-              </div>
-		 
+ <?php
+ $sql= "SELECT * FROM complaints ORDER BY rid ASC";
+ $select_result = mysqli_query($conn,$sql);
+ while($row = mysqli_fetch_assoc($select_result)){
+ $complainID = $row['complaintID'];
+ $rid = $row['rid'];
+ $official_id = $row['official_id'];
+ if(!empty($row['rid'])){
+ $result = mysqli_query($conn, "SELECT * FROM resident  WHERE rid = $rid");
+ $resrow = mysqli_fetch_assoc($result);
+ $result1 = mysqli_query($conn, "SELECT * FROM barangay_official WHERE official_id = $official_id");
+ $offrow = mysqli_fetch_assoc($result1);
+  
+  ?><?php echo '<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$resrow['firstname']." ".$resrow['lastname'].'</h1>'; ?>
+<!--   <h3>Details</h3> -->
+  <table style="width:70%;margin-left:15%;height:120%">
+  <tr>
+    <th rowspan="6" width="30%">
+      <div style="height: auto"><div>
+  <?php echo '<img src="./images/uploads/'.$row['image'].'" width="300px" height="300px" float="right"></div>'; ?>
+    </th>
+    <td>
+      <h3>&nbsp;&nbsp;&nbsp;&nbsp;Status:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="status" value="<?php echo $row['status']; ?>" style="width:50%" readonly></h3>
+    </td>
+  </tr>
+  <tr>
+    <td>
+  <h3>&nbsp;&nbsp;&nbsp;&nbsp;Person In-Charged: <input type="text" value="<?php echo $offrow['name']; ?>" style="width:50%" readonly>
+  </td>
+  </tr>
+  <tr>
+    <td><h3>&nbsp;&nbsp;&nbsp;&nbsp;Date End:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="<?php echo $row['cdate'];?>" style="width:50%" readonly>
+  </td>
+</tr>
+  <tr><td>
+    <h3>&nbsp;&nbsp;&nbsp;&nbsp;Purok:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="<?php echo $row['location'];?>" style="width:50%" readonly>
+  </td></tr>
+  <tr><td>
+  <h3>&nbsp;&nbsp;&nbsp;&nbsp;Category:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="<?php echo $row['category'];?>" style="width:50%" readonly>
+  </td></tr>
+  <tr><td>
+    <h3>&nbsp;&nbsp;&nbsp;&nbsp;Description:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="<?php echo $row['description'];?>" style="width:50%" readonly>
+  </td></tr></table>
+<br><br>
+ <?php }
+ }
+ ?>
 	</div>
 </body>
 </html>

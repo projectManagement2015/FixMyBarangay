@@ -1,16 +1,19 @@
-
 <?php 
-
-
-
+	session_start();
+	// if ($_SESSION['login']!=1) {
+	// 	header('location: ../index.php');
+	// }
+	require 'db.php';
+	$official_id = $_SESSION['officialid'];
+	$position = $_SESSION['position'];	
  ?>
-
+ 
 <!DOCTYPE html>
 <!-- Website template by freewebsitetemplates.com -->
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>FMB</title>
+	<title>Admin Home</title>
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
@@ -21,26 +24,34 @@
 				<!-- <img src=""> --></a>
 			</div>
 			<ul id="navigation">
-
-		
 				<li >
 					<a href="adminhome.php">Home</a>
 				</li>
 				<li>
-					<a href="complainants.php">Complainants</a>
+					<a href="complainants.php">List Of Complainants</a>
+				</li>
+				<li>
+					<a href="viewcomments.php">View Comments</a>
 				</li>
 				<li >
-					<a href="viewcomplaints.php">Complaints</a>
+					<a href="adminofficials.php">Task</a>
 				</li>
+				<?php 
+				echo "<li>";
+				if($position == 'Captain') {
+					echo "<a href='unassignedComplaints.php'>Unassigned Complaints</a>";
+				}
+				else{
+					echo "<a href ='unassignedComplaints.php'>Update Status</a>";
+				}
+				echo "</li>";
+				?> 
 				<li>
-					<a href="gallery1.php">Gallery</a>
-				</li> 
-				<li>
-					<a href="adminlogin.php">Log Out</a>
+					<a href="pages/logout.php">Log Out</a>
 				</li>
-				<li>
-					<a href="adminlogin.php"></a>
-				</li>
+				<!-- <li>
+					<a href="index.php"></a>
+				</li> -->
 			</ul>
 		</div>
 	</div>

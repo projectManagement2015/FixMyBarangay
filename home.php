@@ -1,8 +1,8 @@
+00
 <?php 
-	session_start();
-	if ($_SESSION['login']!=1) {
-		header('location: index.php');
-	}
+
+
+
  ?>
 
 <!DOCTYPE html>
@@ -21,6 +21,8 @@
 				<!-- <img src=""> --></a>
 			</div>
 			<ul id="navigation">
+
+		
 				<li >
 					<a href="home.php">Home</a>
 				</li>
@@ -28,13 +30,13 @@
 					<a href="visitor.php">Visitor's Counter</a>
 				</li>
 				<li>
-					<a href="javascript:void()">Complaints</a>
+					<a href="viewcomplaint.php">Complaints</a>
 				</li>
 				<li>
-					<a href="gallery.php">Gallery</a>
+					<a href="gallery.php">Search Complaint</a>
 				</li>
 				<li>
-					<a href="logout.php">Log Out</a>
+					<a href="index.php">Log Out</a>
 				</li>
 				<li>
 					<a href="login.html"></a>
